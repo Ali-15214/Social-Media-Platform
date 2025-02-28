@@ -1,5 +1,4 @@
 package com.socialmediaplatform.Util;
-
 import com.socialmediaplatform.service.impl.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

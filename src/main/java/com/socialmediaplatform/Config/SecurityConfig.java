@@ -1,5 +1,6 @@
 package com.socialmediaplatform.Config;
 
+
 import com.socialmediaplatform.Util.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,11 +27,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .authorizeHttpRequests()
-                .requestMatchers("/users/register", "/users/login").permitAll()
-                .anyRequest().authenticated()
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/users/register", "/users/login").permitAll() // Allow register and login without authentication
+                        .anyRequest().authenticated() // Secure all other endpoints
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

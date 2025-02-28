@@ -15,14 +15,17 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
+    // Secret key for signing the JWT (use a secure key in production)
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final long EXPIRATION_TIME = 864_000_000; // 10 days
 
+    // Generate JWT token
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername());
     }
 
+    // Create JWT token
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -33,24 +36,29 @@ public class JwtUtil {
                 .compact();
     }
 
+    // Validate JWT token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    // Extract username from JWT token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // Extract expiration date from JWT token
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    // Extract a specific claim from JWT token
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    // Extract all claims from JWT token
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
@@ -59,6 +67,7 @@ public class JwtUtil {
                 .getBody();
     }
 
+    // Check if JWT token is expired
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
