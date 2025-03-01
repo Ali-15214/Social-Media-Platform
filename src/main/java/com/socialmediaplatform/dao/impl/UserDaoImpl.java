@@ -2,7 +2,7 @@ package com.socialmediaplatform.dao.impl;
 
 import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.dao.UserDao;
-import com.socialmediaplatform.dto.UserDTO;
+import com.socialmediaplatform.dto.RegisterDTO;
 import com.socialmediaplatform.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public User registerUser(UserDTO userDTO) {
+    public User registerUser(RegisterDTO userDTO) {
         String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
 
         User user = new User();
@@ -32,8 +32,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByEmail(String email) {
-       return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
+
+
     @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);

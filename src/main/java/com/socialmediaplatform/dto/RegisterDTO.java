@@ -2,7 +2,7 @@ package com.socialmediaplatform.dto;
 
 import jakarta.validation.constraints.*;
 
-public class UserDTO {
+public class RegisterDTO {
 
     @NotBlank(message = "Username is required")
     @Size(min = 3, max = 25, message = "Username must be between 3 and 25 characters")
@@ -20,10 +20,10 @@ public class UserDTO {
     
     private String bio;
     
-    public UserDTO() {
+    public RegisterDTO() {
     }
     
-    public UserDTO(String username, String email, String password, String profilePicture, String bio) {
+    public RegisterDTO(String username, String email, String password, String profilePicture, String bio) {
 
         this.username = username;
         this.email = email;

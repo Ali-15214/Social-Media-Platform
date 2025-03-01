@@ -1,6 +1,5 @@
 package com.socialmediaplatform.service.impl;
 
-import com.socialmediaplatform.Exceptions.CustomException.InvalidCredentialsException;
 import com.socialmediaplatform.Exceptions.CustomException.UserNotFoundException;
 import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.Response.LoginResponse;
@@ -9,7 +8,7 @@ import com.socialmediaplatform.Response.UserProfileResponse;
 import com.socialmediaplatform.Util.JwtUtil;
 import com.socialmediaplatform.dao.UserDao;
 import com.socialmediaplatform.dto.LoginDTO;
-import com.socialmediaplatform.dto.UserDTO;
+import com.socialmediaplatform.dto.RegisterDTO;
 import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserServices {
     private CustomUserDetailsService userDetailsService;
 
     @Override
-    public ResponseEntity registerUser(UserDTO userDTO) {
+    public ResponseEntity registerUser(RegisterDTO userDTO) {
         User user = userDAO.findByEmail(userDTO.getEmail());
         if (user != null) {
             throw new UserNotFoundException("An account with this email already exists. Please try another email.");
@@ -78,15 +77,15 @@ public class UserServiceImpl implements UserServices {
             throw new IllegalArgumentException("User not found with ID: " + id);
         }
 
-//        UserProfileResponse response = new UserProfileResponse(
-//                user.getId(),
-//                user.getUsername(),
-//                user.getEmail(),
-//                user.getProfilePicture(),
-//                user.getBio()
-//        );
+        UserProfileResponse response = new UserProfileResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getProfilePicture(),
+                user.getBio()
+        );
         // Return user profile
-        return ResponseEntity.status(200).body(user);
+        return ResponseEntity.status(200).body(response);
 
 
     }

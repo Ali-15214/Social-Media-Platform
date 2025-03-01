@@ -1,8 +1,7 @@
 package com.socialmediaplatform.controller;
 
 import com.socialmediaplatform.dto.LoginDTO;
-import com.socialmediaplatform.dto.UserDTO;
-import com.socialmediaplatform.entities.User;
+import com.socialmediaplatform.dto.RegisterDTO;
 import com.socialmediaplatform.service.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class UserController {
     UserServices userServices;
     // Register a new user
     @PostMapping("/register")
-    public ResponseEntity registerUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity registerUser(@Valid @RequestBody RegisterDTO userDTO) {
         return userServices.registerUser(userDTO);
 
     }
