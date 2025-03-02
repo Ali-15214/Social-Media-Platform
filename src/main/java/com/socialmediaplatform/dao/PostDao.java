@@ -10,9 +10,13 @@ import java.util.Optional;
 
 public interface PostDao {
     Post savePost(PostDTO postDTO, User user);
+    Post updatePost(Post post);
 //    Optional<Post> getPostById(Long postId);
      Page<Post> findAllPosts(Pageable pageable);
-      Optional<Post> findPostById(Long id);
+    Optional<Post> findPostById(Long id);
 
+    void removePost(Long postId);
+
+    Page<Post> searchPosts(String keyword, int page, int size, String sortBy, String sortDirection);
 
 }

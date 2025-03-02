@@ -1,5 +1,8 @@
 package com.socialmediaplatform.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
@@ -24,7 +27,8 @@ public class User{
     private String bio;
 
     // One user can have multiple posts
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+   @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Post> posts = new ArrayList<>();
 
     // One user can have multiple comments
@@ -38,14 +42,17 @@ public class User{
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "post_id")
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Post> likedPosts = new ArrayList<>();
 
     // One user can follow multiple users
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Follow> following = new ArrayList<>();
 
     // One user can be followed by multiple users
     @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Follow> followers = new ArrayList<>();
 
     public User() {

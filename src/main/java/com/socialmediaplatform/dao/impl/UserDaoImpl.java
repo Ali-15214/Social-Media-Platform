@@ -5,6 +5,10 @@ import com.socialmediaplatform.dao.UserDao;
 import com.socialmediaplatform.dto.RegisterDTO;
 import com.socialmediaplatform.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,4 +45,18 @@ public class UserDaoImpl implements UserDao {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public Page<User> searchUsers(String keyword, int page, int size, String sortBy, String sortDirection) {
+        // Create a Pageable object for pagination and sorting
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Search for users using the repository
+        return userRepository.searchByUsernameOrEmailOrBio(keyword, pageable);
+    }
+
+    @Override
+    public Page<User> searchUsers(String keyword, Pageable pageable) {
+        return userRepository.searchByUsernameOrEmailOrBio(keyword, pageable);
+    }
 }

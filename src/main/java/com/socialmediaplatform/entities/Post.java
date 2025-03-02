@@ -21,6 +21,7 @@ public class Post {
     private User user;
 
 
+
     private String content;
 
     private LocalDateTime timestamp = LocalDateTime.now();
@@ -31,6 +32,7 @@ public class Post {
 
     // ManyToMany: Posts can be liked by multiple users (Bidirectional)
     @ManyToMany(mappedBy = "likedPosts")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<User> likedByUsers = new ArrayList<>();
 
     public Post() {

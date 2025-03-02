@@ -9,9 +9,15 @@ import com.socialmediaplatform.Util.JwtUtil;
 import com.socialmediaplatform.dao.UserDao;
 import com.socialmediaplatform.dto.LoginDTO;
 import com.socialmediaplatform.dto.RegisterDTO;
+import com.socialmediaplatform.dto.SearchRequestDTO;
+import com.socialmediaplatform.dto.UserDTO;
 import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,8 +31,7 @@ public class UserServiceImpl implements UserServices {
 
     @Autowired
     UserDao userDAO;
-    @Autowired
-    private UserRepository userRepository;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -61,10 +66,11 @@ public class UserServiceImpl implements UserServices {
         );
 
         // Load user details
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDTO.getEmail());
+//        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDTO.getEmail());
 
+        User user = userDAO.findByEmail(loginDTO.getEmail());
         // Generate JWT token
-        final String jwt = jwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken(user);
 
         // Return token in response
         return ResponseEntity.ok(new LoginResponse(jwt));
@@ -88,6 +94,25 @@ public class UserServiceImpl implements UserServices {
         return ResponseEntity.status(200).body(response);
 
 
+    }
+
+    @Override
+    public Page<UserDTO> searchUsers(SearchRequestDTO searchRequestDTO) {
+        int page = Math.max(searchRequestDTO.getPage(), 0); // Ensure page >= 0
+        int size = Math.max(searchRequestDTO.getSize(), 2); // Ensure size >= 5
+        String sortBy = searchRequestDTO.getSortBy() != null ? searchRequestDTO.getSortBy() : "username";
+        String sortDirection = searchRequestDTO.getSortDirection() != null ? searchRequestDTO.getSortDirection() : "ASC";
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<User> users = userDAO.searchUsers(searchRequestDTO.getKeyword(), pageable);
+
+        return users.map(this::convertToUserDTO);
+    }
+
+    private UserDTO convertToUserDTO(User user) {
+        return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getProfilePicture(), user.getBio());
     }
     }
 

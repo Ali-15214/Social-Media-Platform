@@ -6,7 +6,8 @@ public class PostDTO {
 
     private String content;
 
-    public PostDTO() {}
+    public PostDTO() {
+    }
 
     public PostDTO(String content, long id) {
         this.content = content;

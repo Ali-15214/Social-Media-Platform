@@ -1,5 +1,7 @@
 package com.socialmediaplatform.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,19 +12,24 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "follower_id", nullable = false)
+    @JsonBackReference
     private User follower;
 
     @ManyToOne
     @JoinColumn(name = "following_id", nullable = false)
+    @JsonManagedReference
     private User following;
 
-    public Follow() {
-    }
 
-    public Follow(Long id, User follower, User following) {
-        this.id = id;
+
+    public Follow( User follower, User following) {
+
         this.follower = follower;
         this.following = following;
+    }
+
+    public Follow() {
+
     }
 
     public Long getId() {

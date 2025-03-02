@@ -1,6 +1,8 @@
 package com.socialmediaplatform.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -16,9 +18,10 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
-
+    @Column(length = 500)
     private String content;
 
     private LocalDateTime timestamp = LocalDateTime.now();
@@ -26,12 +29,10 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(Long id, User user, Post post, String content, LocalDateTime timestamp) {
-        this.id = id;
+    public Comment(User user, Post post, String content) {
         this.user = user;
         this.post = post;
         this.content = content;
-        this.timestamp = timestamp;
     }
 
     public Long getId() {
