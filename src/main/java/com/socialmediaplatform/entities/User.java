@@ -6,7 +6,10 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import java.util.Set;
 
 @Entity
 public class User{
@@ -27,13 +30,13 @@ public class User{
     private String bio;
 
     // One user can have multiple posts
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Post> posts = new ArrayList<>();
+    private Set<Post> posts = new HashSet<>();
 
     // One user can have multiple comments
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 
     // ManyToMany: Users can like multiple posts
     @ManyToMany
@@ -43,7 +46,7 @@ public class User{
         inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Post> likedPosts = new ArrayList<>();
+    private Set<Post> likedPosts = new HashSet<>();
 
     // One user can follow multiple users
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -58,7 +61,7 @@ public class User{
     public User() {
     }
 
-    public User(Long id, String username, String email, String password, String profilePicture, String bio, List<Post> posts, List<Comment> comments, List<Post> likedPosts, List<Follow> following, List<Follow> followers) {
+    public User(Long id, String username, String email, String password, String profilePicture, String bio, Set<Post> posts, Set<Post> likedPosts, Set<Comment> comments, List<Follow> following, List<Follow> followers) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -66,8 +69,8 @@ public class User{
         this.profilePicture = profilePicture;
         this.bio = bio;
         this.posts = posts;
-        this.comments = comments;
         this.likedPosts = likedPosts;
+        this.comments = comments;
         this.following = following;
         this.followers = followers;
     }
@@ -120,28 +123,28 @@ public class User{
         this.bio = bio;
     }
 
-    public List<Post> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(Set<Post> posts) {
         this.posts = posts;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<Post> getLikedPosts() {
+    public Set<Post> getLikedPosts() {
         return likedPosts;
     }
 
-    public void setLikedPosts(List<Post> likedPosts) {
+    public void setLikedPosts(Set<Post> likedPosts) {
         this.likedPosts = likedPosts;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public List<Follow> getFollowing() {

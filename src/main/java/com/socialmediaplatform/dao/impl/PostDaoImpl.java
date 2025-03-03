@@ -28,6 +28,7 @@ public class PostDaoImpl implements PostDao {
         return postRepository.save(post);
     }
 
+
     @Override
     public Post updatePost(Post post) {
         return postRepository.save(post);
@@ -41,13 +42,18 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public Optional<Post> findPostById(Long id) {
-        return postRepository.findById(id);
+        return postRepository.findPostWithLikesAndComments(id);
     }
 
     @Override
     public void removePost(Long postId) {
 
         postRepository.deleteById(postId);
+    }
+
+    @Override
+    public Optional<Post> findById(Long id) {
+       return postRepository.findById(id);
     }
 
 

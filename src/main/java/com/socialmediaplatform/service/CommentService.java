@@ -6,5 +6,5 @@ import com.socialmediaplatform.dto.CommentRequestDTO;
 import com.socialmediaplatform.entities.Comment;
 
 public interface CommentService {
-        Comment addComment(CommentDTO commentDTO);
+    Comment addComment(Long postId, Long userId, String content);
     }

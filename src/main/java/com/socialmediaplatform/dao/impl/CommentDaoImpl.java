@@ -1,6 +1,8 @@
 package com.socialmediaplatform.dao.impl;
 
 import com.socialmediaplatform.Repository.CommentRepository;
+import com.socialmediaplatform.Repository.PostRepository;
+import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.dao.CommentDao;
 import com.socialmediaplatform.dto.CommentDTO;
 import com.socialmediaplatform.dto.CommentRequestDTO;
@@ -16,16 +18,26 @@ import java.util.Optional;
 public class CommentDaoImpl implements CommentDao {
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    PostRepository postRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
-    public Comment saveComment(User user, Post post, String content) {
-        Comment comment = new Comment();
-        comment.setUser(user);
-        comment.setPost(post);
-        comment.setContent(content);
+    public Comment saveComment(Comment comment) {
 
         return commentRepository.save(comment);
 
 
+    }
+
+    @Override
+    public Optional<Post> findById(Long id) {
+       return postRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findByUserId(Long id) {
+        return userRepository.findById(id);
     }
 }

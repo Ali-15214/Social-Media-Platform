@@ -61,8 +61,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Long id) {
-        PostDTO postDto = postService.getPostById(id);
-        return ResponseEntity.ok(postDto);
+        return ResponseEntity.ok(postService.getPostById(id));
     }
 
 
@@ -73,9 +72,10 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable Long id) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        postService.deletePost(id);
+    public ResponseEntity<String> deletePost(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+
+        Long userId = jwtUtil.extractUserIdFromHeader(token);
+        postService.deletePost(id,userId);
         return ResponseEntity.ok("Post deleted successfully.");
     }
 
@@ -88,12 +88,12 @@ public class PostController {
 //        return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
 //    }
 
-    @PostMapping("{id}/comments")
-    public Comment addComment(@PathVariable Long id, @RequestBody CommentDTO commentDTO) {
-        commentDTO.setPostId(id);
-        return commentService.addComment(commentDTO);
-    }
+    @PostMapping("/{id}/comments")
+    public Comment addComment(@PathVariable Long postId, @RequestBody String content,@RequestHeader(name = "Authorization") String headerToken) {
+        Long userId = jwtUtil.extractUserIdFromHeader(headerToken);
+        return commentService.addComment(postId, userId, content);
 
+}
     @PostMapping("/{id}/like")
     public ResponseEntity<String> likePost(@PathVariable Long id,@RequestHeader(name = "Authorization") String headerToken) {
         Long currentUserId = jwtUtil.extractUserIdFromHeader(headerToken);

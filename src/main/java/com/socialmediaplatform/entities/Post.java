@@ -1,15 +1,20 @@
 package com.socialmediaplatform.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +23,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
 
 
@@ -27,18 +33,20 @@ public class Post {
     private LocalDateTime timestamp = LocalDateTime.now();
 
     // One post can have multiple comments
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Comment> comments = new HashSet<>();
 
     // ManyToMany: Posts can be liked by multiple users (Bidirectional)
     @ManyToMany(mappedBy = "likedPosts")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<User> likedByUsers = new ArrayList<>();
+    @JsonIgnore
+    private Set<User> likedByUsers = new HashSet<>();
 
     public Post() {
     }
 
-    public Post(Long id, User user, String content, LocalDateTime timestamp, List<Comment> comments, List<User> likedByUsers) {
+    public Post(Long id, User user, String content, LocalDateTime timestamp, Set<Comment> comments, Set<User> likedByUsers) {
         this.id = id;
         this.user = user;
         this.content = content;
@@ -79,19 +87,21 @@ public class Post {
         this.timestamp = timestamp;
     }
 
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
-    public List<User> getLikedByUsers() {
+    public Set<User> getLikedByUsers() {
         return likedByUsers;
     }
 
-    public void setLikedByUsers(List<User> likedByUsers) {
+    public void setLikedByUsers(Set<User> likedByUsers) {
         this.likedByUsers = likedByUsers;
     }
+
+
 }

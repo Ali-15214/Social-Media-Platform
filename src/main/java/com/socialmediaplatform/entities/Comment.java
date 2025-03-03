@@ -29,6 +29,9 @@ public class Comment {
     public Comment() {
     }
 
+    Comment(Long id){
+        this.id = id;
+    }
     public Comment(User user, Post post, String content) {
         this.user = user;
         this.post = post;
@@ -47,8 +50,8 @@ public class Comment {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Long id) {
+        this.id = id;
     }
 
     public Post getPost() {

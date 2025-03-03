@@ -10,5 +10,8 @@ import java.util.Optional;
 
 public interface CommentDao {
 
-    Comment saveComment(User user, Post post, String content);
+    Comment saveComment(Comment comment);
+    Optional<Post> findById(Long id);
+    Optional<User> findByUserId(Long id);
+
 }

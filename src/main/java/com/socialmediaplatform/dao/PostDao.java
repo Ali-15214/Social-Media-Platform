@@ -17,6 +17,8 @@ public interface PostDao {
 
     void removePost(Long postId);
 
+    Optional<Post> findById(Long id);
+
     Page<Post> searchPosts(String keyword, int page, int size, String sortBy, String sortDirection);
 
 }

@@ -1,6 +1,7 @@
 package com.socialmediaplatform.service.impl;
 
 import com.socialmediaplatform.Exceptions.CustomException.PostNotFoundException;
+import com.socialmediaplatform.Exceptions.CustomException.UnauthorizedAccessException;
 import com.socialmediaplatform.Exceptions.CustomException.UserNotFoundException;
 import com.socialmediaplatform.Repository.PostRepository;
 import com.socialmediaplatform.Repository.UserRepository;
@@ -12,6 +13,7 @@ import com.socialmediaplatform.dto.SearchRequestDTO;
 import com.socialmediaplatform.entities.Post;
 import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.PostServices;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,39 +69,20 @@ public class PostServicesImpl implements PostServices {
         return postDAO.findAllPosts(pageable);
     }
 
-    @Override
+
     public PostDTO getPostById(Long id) {
-        Optional<Post> post = postDAO.findPostById(id);
-        if (post.isEmpty()) {
-            throw new PostNotFoundException("Post with ID " + id + " not found");
+        Post post = postDAO.findPostById(id)
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
 
-        }
-
-
-        return new PostDTO(post.get().getContent(), post.get().getId());
+        return new PostDTO(post);
     }
 
     @Override
     public PostDTO updatePost(Long postId, PostDTO postDto) {
-        //  Get currently logged-in user's email
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        //  Find logged-in user
-        User loggedInUser = userRepository.findByEmail(email);
-        if (loggedInUser == null) {
-            throw new UserNotFoundException("User not found");
-        }
 
         // Fetch the post by ID, or throw an error if it doesn’t exist
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
-
-        //  Ensure only the owner can update the post
-        if (!post.getUser().getId().equals(loggedInUser.getId())) {
-            throw new AccessDeniedException("You are not authorized to update this post!");
-        }
-
-        // Update post details
+        Post post = postDAO.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post not found"));
 
         post.setContent(postDto.getContent());
 
@@ -114,20 +97,17 @@ public class PostServicesImpl implements PostServices {
 
 
 
-    @Transactional
+
     @Override
-    public void deletePost(Long postId) {
+    public void deletePost(Long postId,Long userId) {
 
-        Post post = postRepository.findById(postId)
+        Post post = postDAO.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found"));
-
-
+        if (!post.getUser().equals(userId)) {
+            throw new UnauthorizedAccessException("You are not allowed to delete this post");
+        }
 
       postDAO.removePost(postId);
-        System.out.println("delee");
-
-
-
 }
 
 
@@ -147,7 +127,7 @@ public class PostServicesImpl implements PostServices {
     }
 
     private PostDTO convertToPostDTO(Post post) {
-        PostDTO postDTO = new PostDTO();
+        PostDTO postDTO = new PostDTO(post.getId(), post.getContent(), post.getLikedByUsers(), post.getComments());
         postDTO.setId(post.getId());
         postDTO.setContent(post.getContent());
         return postDTO;

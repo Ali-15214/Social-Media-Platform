@@ -14,6 +14,7 @@ import com.socialmediaplatform.Repository.UserRepository;
 
 import com.socialmediaplatform.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,15 +35,18 @@ public class CommentServiceImpl implements CommentService {
     private UserRepository userRepository;
 
     @Override
-    public Comment addComment(CommentDTO commentDTO) {
-        User user = userRepository.findById(commentDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Post post = postRepository.findById(commentDTO.getPostId())
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+    public Comment addComment(Long postId, Long userId, String content) {
+        // Fetch the post by ID (validate if post exists)
+        Post post = commentDao.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post not found with ID: " + postId));
 
+        // Fetch the user by ID (validate if user exists)
+        User user = commentDao.findByUserId(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + userId));
 
-                Comment comment=commentDao.saveComment(user,post,commentDTO.getContent());
-                return comment;
+        // Create and save the comment
+        Comment comment = new Comment(user, post, content);
+        return commentDao.saveComment(comment);
 
     }
 }

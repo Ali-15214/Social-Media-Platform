@@ -16,7 +16,7 @@ public interface PostServices {
 
     PostDTO updatePost(Long postId, PostDTO postDto);
 
-    void deletePost(Long postId);
+    void deletePost(Long postId,Long userId);
 
     Page<PostDTO> searchPosts(SearchRequestDTO searchRequestDTO);
 }
