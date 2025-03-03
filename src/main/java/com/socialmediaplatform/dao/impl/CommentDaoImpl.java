@@ -25,10 +25,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public Comment saveComment(Comment comment) {
-
         return commentRepository.save(comment);
-
-
     }
 
     @Override

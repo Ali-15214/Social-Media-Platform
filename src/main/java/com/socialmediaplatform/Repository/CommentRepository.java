@@ -7,6 +7,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    @Transactional
-    void deleteByPost(Post post); // Delete comments when post is deleted
 }

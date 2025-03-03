@@ -46,6 +46,12 @@ public class Post {
     public Post() {
     }
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
     public Post(Long id, User user, String content, LocalDateTime timestamp, Set<Comment> comments, Set<User> likedByUsers) {
         this.id = id;
         this.user = user;

@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -79,19 +81,13 @@ public class PostController {
         return ResponseEntity.ok("Post deleted successfully.");
     }
 
-//    @PostMapping("/{postId}/comments")
-//    public ResponseEntity<CommentResponseDTO> addCommentToPost(
-//            @PathVariable Long postId,
-//            @RequestHeader("userId") Long userId,
-//            @Valid @RequestBody CommentRequestDTO commentRequestDTO) {
-//        CommentResponseDTO savedComment = commentService.addCommentToPost(postId, userId, commentRequestDTO);
-//        return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
-//    }
+
 
     @PostMapping("/{id}/comments")
-    public Comment addComment(@PathVariable Long postId, @RequestBody String content,@RequestHeader(name = "Authorization") String headerToken) {
+    public Comment addComment(@PathVariable Long id, @RequestBody Map<String, String> request, @RequestHeader(name = "Authorization") String headerToken) {
         Long userId = jwtUtil.extractUserIdFromHeader(headerToken);
-        return commentService.addComment(postId, userId, content);
+        String content = request.get("content");
+        return commentService.addComment(id, userId, content);
 
 }
     @PostMapping("/{id}/like")

@@ -25,8 +25,8 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public ResponseEntity<?> followUser(Long targetUserId, Long followerId) {
         // **User Fetch from DB (Only Once)**
-        User follower = userRepository.findById(followerId).orElse(null);
-        User targetUser = userRepository.findById(targetUserId).orElse(null);
+        User follower = followDAO.findById(followerId).orElse(null);
+        User targetUser = followDAO.findById(targetUserId).orElse(null);
 
         if (follower == null || targetUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -49,7 +49,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public ResponseEntity<?> getUserFollowers(Long targetUserId) {
-        User targetUser = userRepository.findById(targetUserId).orElse(null);
+        User targetUser = followDAO.findById(targetUserId).orElse(null);
 
 
         if ( targetUser == null) {
