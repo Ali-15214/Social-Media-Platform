@@ -29,6 +29,7 @@ public class Post {
 
 
     private String content;
+    
 
     private LocalDateTime timestamp = LocalDateTime.now();
 

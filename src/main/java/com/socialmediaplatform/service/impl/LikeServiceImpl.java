@@ -1,5 +1,6 @@
 package com.socialmediaplatform.service.impl;
 
+import com.socialmediaplatform.Exceptions.CustomException.ActionAlreadyPerformedException;
 import com.socialmediaplatform.Exceptions.CustomException.PostNotFoundException;
 import com.socialmediaplatform.Exceptions.CustomException.UnauthorizedAccessException;
 import com.socialmediaplatform.dao.LikeDao;
@@ -9,14 +10,14 @@ import com.socialmediaplatform.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class LikeServiceImpl implements LikeService {
     @Autowired
     private LikeDao likeDao;
 
-    @Transactional
+
     @Override
     public void likePost(Long postId,Long userId) {
         User user = likeDao.findUserById(userId)
@@ -26,7 +27,7 @@ public class LikeServiceImpl implements LikeService {
                 .orElseThrow(() -> new PostNotFoundException("Post not found"));
 
         if (user.getLikedPosts().contains(post)) {
-            throw new UnauthorizedAccessException("User has already liked this post");
+            throw new ActionAlreadyPerformedException("You have already liked this post");
         }
 
         user.getLikedPosts().add(post);

@@ -19,6 +19,4 @@ public interface PostDao {
 
     Optional<Post> findById(Long id);
 
-    Page<Post> searchPosts(String keyword, int page, int size, String sortBy, String sortDirection);
-
 }

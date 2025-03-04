@@ -2,7 +2,6 @@ package com.socialmediaplatform.service.impl;
 
 import com.socialmediaplatform.Exceptions.CustomException.PostNotFoundException;
 import com.socialmediaplatform.Exceptions.CustomException.UnauthorizedAccessException;
-import com.socialmediaplatform.Exceptions.CustomException.UserNotFoundException;
 import com.socialmediaplatform.Repository.PostRepository;
 import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.Response.PostResponseDTO;
@@ -14,19 +13,12 @@ import com.socialmediaplatform.entities.Post;
 import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.PostServices;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-
-import java.util.Optional;
 
 @Service
 public class PostServicesImpl implements PostServices {
@@ -40,6 +32,7 @@ public class PostServicesImpl implements PostServices {
 
     @Autowired
     private UserRepository userRepository;
+
 
     @Override
     public ResponseEntity createPost(PostDTO postDTO, String email) {
@@ -78,11 +71,16 @@ public class PostServicesImpl implements PostServices {
     }
 
     @Override
-    public PostDTO updatePost(Long postId, PostDTO postDto) {
+    public PostDTO updatePost(Long postId,Long userId, PostDTO postDto) {
 
-        // Fetch the post by ID, or throw an error if it doesn’t exist
+
         Post post = postDAO.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found"));
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new UnauthorizedAccessException("You are not authorize to update this post");
+        }
+
 
         post.setContent(postDto.getContent());
 
@@ -94,42 +92,18 @@ public class PostServicesImpl implements PostServices {
     }
 
 
-
-
-
-
     @Override
     public void deletePost(Long postId,Long userId) {
 
         Post post = postDAO.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found"));
-        if (!post.getUser().equals(userId)) {
-            throw new UnauthorizedAccessException("You are not allowed to delete this post");
+        if (!post.getUser().getId().equals(userId)) {
+            throw new UnauthorizedAccessException("You are not authorize to delete this post");
         }
 
       postDAO.removePost(postId);
 }
 
 
-    @Override
-    public Page<PostDTO> searchPosts(SearchRequestDTO searchRequestDTO) {
-        // Search for posts using the DAO layer
-        Page<Post> posts = postDAO.searchPosts(
-                searchRequestDTO.getKeyword(),
-                searchRequestDTO.getPage(),
-                searchRequestDTO.getSize(),
-                searchRequestDTO.getSortBy(),
-                searchRequestDTO.getSortDirection()
-        );
 
-        // Convert Post entities to PostDTOs
-        return posts.map(this::convertToPostDTO);
-    }
-
-    private PostDTO convertToPostDTO(Post post) {
-        PostDTO postDTO = new PostDTO(post.getId(), post.getContent(), post.getLikedByUsers(), post.getComments());
-        postDTO.setId(post.getId());
-        postDTO.setContent(post.getContent());
-        return postDTO;
-    }
 }

@@ -26,9 +26,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+//        http.csrf().disable()
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/register", "/users/login").permitAll() // Allow register and login without authentication
+                        .requestMatchers("/users/register", "/users/login","/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html" ).permitAll() // Allow register and login without authentication
                         .anyRequest().authenticated() // Secure all other endpoints
                 )
                 .sessionManagement(session -> session

@@ -3,10 +3,10 @@ package com.socialmediaplatform.dao.impl;
 import com.socialmediaplatform.Repository.PostRepository;
 import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.dao.FollowDAO;
-import com.socialmediaplatform.dto.FollowDTO;
+
 import com.socialmediaplatform.entities.Follow;
 import com.socialmediaplatform.Repository.FollowRepository;
-import com.socialmediaplatform.entities.Post;
+
 import com.socialmediaplatform.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

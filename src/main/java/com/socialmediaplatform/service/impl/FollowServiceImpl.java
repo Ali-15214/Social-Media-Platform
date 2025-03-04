@@ -36,10 +36,10 @@ public class FollowServiceImpl implements FollowService {
         // **Check if already following (No extra DB query)**
         if (followDAO.isAlreadyFollowing(follower, targetUser)) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("{\"message\": \"You are already following this user.\"}");
+                .body("{\"message\": \"You have already following this user.\"}");
         }
 
-        // **Save follow entry**
+
         Follow follow = new Follow(follower, targetUser);
         followDAO.saveFollow(follow);
 
@@ -68,6 +68,10 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public List<String> getFollowingUsernames(Long userId) {
         List<User> followingUsers = followDAO.findFollowingUsers(userId);
+        if (followingUsers == null) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+
         return followingUsers.stream()
                 .map(User::getUsername)  // Sirf usernames extract kar rahe hain
                 .collect(Collectors.toList());

@@ -4,8 +4,6 @@ import com.socialmediaplatform.Repository.CommentRepository;
 import com.socialmediaplatform.Repository.PostRepository;
 import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.dao.CommentDao;
-import com.socialmediaplatform.dto.CommentDTO;
-import com.socialmediaplatform.dto.CommentRequestDTO;
 import com.socialmediaplatform.entities.Comment;
 import com.socialmediaplatform.entities.Post;
 import com.socialmediaplatform.entities.User;

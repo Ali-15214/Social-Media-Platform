@@ -1,6 +1,7 @@
 package com.socialmediaplatform.service;
 
 import com.socialmediaplatform.dto.PostDTO;
+
 import com.socialmediaplatform.dto.SearchRequestDTO;
 import com.socialmediaplatform.entities.Post;
 import org.springframework.data.domain.Page;
@@ -14,9 +15,12 @@ public interface PostServices {
 
     PostDTO getPostById(Long id);
 
-    PostDTO updatePost(Long postId, PostDTO postDto);
+    PostDTO updatePost(Long postId,Long userId, PostDTO postDto);
 
     void deletePost(Long postId,Long userId);
 
-    Page<PostDTO> searchPosts(SearchRequestDTO searchRequestDTO);
+
+
+
+
 }

@@ -8,7 +8,7 @@ public class LoginDTO {
     private String email;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 5, message = "Password must be at least 5 characters long")
+    @Size(min = 5, message = "Password must be at least 5 characters and numbers ")
     private String password;
 
     // Getters and Setters

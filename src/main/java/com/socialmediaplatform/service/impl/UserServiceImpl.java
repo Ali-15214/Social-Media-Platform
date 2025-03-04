@@ -1,7 +1,7 @@
 package com.socialmediaplatform.service.impl;
 
+import com.socialmediaplatform.Exceptions.CustomException.ActionAlreadyPerformedException;
 import com.socialmediaplatform.Exceptions.CustomException.UserNotFoundException;
-import com.socialmediaplatform.Repository.UserRepository;
 import com.socialmediaplatform.Response.LoginResponse;
 import com.socialmediaplatform.Response.RegisterUserResponse;
 import com.socialmediaplatform.Response.UserProfileResponse;
@@ -22,7 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserServices {
     public ResponseEntity registerUser(RegisterDTO userDTO) {
         User user = userDAO.findByEmail(userDTO.getEmail());
         if (user != null) {
-            throw new UserNotFoundException("An account with this email already exists. Please try another email.");
+            throw new ActionAlreadyPerformedException("An account with this email already exists. Please try another email.");
         }
 
         user=userDAO.registerUser(userDTO);
@@ -65,8 +65,7 @@ public class UserServiceImpl implements UserServices {
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
         );
 
-        // Load user details
-//        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDTO.getEmail());
+
 
         User user = userDAO.findByEmail(loginDTO.getEmail());
         // Generate JWT token
@@ -98,6 +97,7 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public Page<UserDTO> searchUsers(SearchRequestDTO searchRequestDTO) {
+
         int page = Math.max(searchRequestDTO.getPage(), 0); // Ensure page >= 0
         int size = Math.max(searchRequestDTO.getSize(), 2); // Ensure size >= 5
         String sortBy = searchRequestDTO.getSortBy() != null ? searchRequestDTO.getSortBy() : "username";
@@ -107,6 +107,7 @@ public class UserServiceImpl implements UserServices {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         Page<User> users = userDAO.searchUsers(searchRequestDTO.getKeyword(), pageable);
+
 
         return users.map(this::convertToUserDTO);
     }

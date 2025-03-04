@@ -1,5 +1,6 @@
 package com.socialmediaplatform.Exceptions;
 
+import com.socialmediaplatform.Exceptions.CustomException.ActionAlreadyPerformedException;
 import com.socialmediaplatform.Exceptions.CustomException.InvalidCredentialsException;
 import com.socialmediaplatform.Exceptions.CustomException.PostNotFoundException;
 import com.socialmediaplatform.Exceptions.CustomException.UnauthorizedAccessException;
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> handleBadCredentials(BadCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect email or password");
     }
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<String> handleUserNotFound(UsernameNotFoundException ex) {
@@ -35,7 +36,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedAccessException.class)
     public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ActionAlreadyPerformedException.class)
+    public ResponseEntity<String> handleActionAlreadyPerformedException(ActionAlreadyPerformedException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -70,8 +76,6 @@ public class GlobalExceptionHandler {
         System.out.println("Exception Type: " + ex.getClass().getName());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Something went wrong! " + ex.getMessage());
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                .body("Something went wrong! " + ex.getMessage());
     }
 
 }

@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
         User user = new User();
             user.setUsername(userDTO.getUsername());
             user.setEmail(userDTO.getEmail());
-            user.setPassword(encryptedPassword); // In real-world, hash the password
+            user.setPassword(encryptedPassword);
             user.setProfilePicture(userDTO.getProfilePicture());
             user.setBio(userDTO.getBio());
             return userRepository.save(user);
