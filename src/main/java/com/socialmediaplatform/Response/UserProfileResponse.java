@@ -7,7 +7,7 @@ public class UserProfileResponse {
     private String profilePicture;
     private String bio;
 
-    // Constructor
+
     public UserProfileResponse(Long id, String username, String email, String profilePicture, String bio) {
         this.id = id;
         this.username = username;
@@ -16,7 +16,7 @@ public class UserProfileResponse {
         this.bio = bio;
     }
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

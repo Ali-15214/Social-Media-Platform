@@ -14,6 +14,8 @@ import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.PostServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -63,6 +65,8 @@ public class PostServicesImpl implements PostServices {
     }
 
 
+    @Cacheable(value = "posts", key = "#id")
+    @Override
     public PostDTO getPostById(Long id) {
         Post post = postDAO.findPostById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post not found"));
@@ -70,6 +74,7 @@ public class PostServicesImpl implements PostServices {
         return new PostDTO(post);
     }
 
+    @CacheEvict(value = "users", key = "#id")
     @Override
     public PostDTO updatePost(Long postId,Long userId, PostDTO postDto) {
 

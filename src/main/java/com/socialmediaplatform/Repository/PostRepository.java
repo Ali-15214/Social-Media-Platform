@@ -16,8 +16,8 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     Page<Post> searchByContent(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT p FROM Post p " +
-            "LEFT JOIN FETCH p.likedByUsers " +  // Fetching likes
-            "LEFT JOIN FETCH p.comments " +     // Fetching comments
+            "LEFT JOIN FETCH p.likedByUsers " +
+            "LEFT JOIN FETCH p.comments " +
             "WHERE p.id = :postId")
     Optional<Post> findPostWithLikesAndComments(@Param("postId") Long postId);
 

@@ -9,7 +9,7 @@ public class PostResponseDTO {
     private String userEmail;
     private String userName;
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

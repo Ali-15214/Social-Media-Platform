@@ -8,7 +8,7 @@ public class FollowResponseDTO {
     private String followingName;
     private String message;
 
-    // Constructor
+
     public FollowResponseDTO(Long followId, Long followerId, String followerName,
                              Long followingId, String followingName, String message) {
         this.followId = followId;
@@ -67,5 +67,5 @@ public class FollowResponseDTO {
     public void setMessage(String message) {
         this.message = message;
     }
-// Getters & Setters
+
 }

@@ -31,7 +31,7 @@ public class UserController {
 
     @Autowired
     private FollowService followService;
-    // Register a new user
+
 
     @Operation(summary = "User Registration", description = "Registers a new user with email and password validation.")
     @ApiResponse(responseCode = "201", description = "User registered successfully.")
@@ -45,7 +45,7 @@ public class UserController {
     }
 
 
-    // Login user
+
     @Operation(summary = "Login user", description = "Authenticates a user and returns a JWT token")
     @ApiResponse(responseCode = "200", description = "Login successful.")
     @ApiResponse(responseCode = "400", description = "Bad Request: Invalid email format or password requirements not met.")
@@ -58,7 +58,7 @@ public class UserController {
 
 
 
-    // Retrieve a user profile by ID
+
     @Operation(summary = "Get user profile", description = "Fetches a user profile by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User profile retrieved successfully"),

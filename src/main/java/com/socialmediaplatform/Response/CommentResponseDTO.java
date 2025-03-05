@@ -9,7 +9,7 @@ public class CommentResponseDTO {
     private String content;
     private LocalDateTime timestamp;
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

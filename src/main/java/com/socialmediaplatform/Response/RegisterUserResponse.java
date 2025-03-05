@@ -4,13 +4,12 @@ public class RegisterUserResponse {
     private String message;
     private Long userId;
 
-    // Constructor
     public RegisterUserResponse(String message, Long userId) {
         this.message = message;
         this.userId = userId;
     }
 
-    // Getters and Setters
+
     public String getMessage() {
         return message;
     }

@@ -14,6 +14,7 @@ import com.socialmediaplatform.dto.UserDTO;
 import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public ResponseEntity loginUser(LoginDTO loginDTO) {
-        // Authenticate user
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
         );
@@ -68,13 +69,13 @@ public class UserServiceImpl implements UserServices {
 
 
         User user = userDAO.findByEmail(loginDTO.getEmail());
-        // Generate JWT token
+
         final String jwt = jwtUtil.generateToken(user);
 
-        // Return token in response
         return ResponseEntity.ok(new LoginResponse(jwt));
     }
 
+    @Cacheable(value = "users", key = "#id")
     @Override
     public ResponseEntity getUserProfile(Long id) {
         User user = userDAO.findById(id);
@@ -89,7 +90,7 @@ public class UserServiceImpl implements UserServices {
                 user.getProfilePicture(),
                 user.getBio()
         );
-        // Return user profile
+
         return ResponseEntity.status(200).body(response);
 
 

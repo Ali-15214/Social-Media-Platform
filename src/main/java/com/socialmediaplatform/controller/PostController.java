@@ -51,7 +51,7 @@ public class PostController {
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-            // Step 2: Create post for the logged-in user
+
             return postService.createPost(postDTO, email);
 
     }
@@ -68,7 +68,7 @@ public class PostController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "timestamp,desc") String[] sort) {
 
-        // Create Pageable object for pagination and sorting
+
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("timestamp")));
 
 

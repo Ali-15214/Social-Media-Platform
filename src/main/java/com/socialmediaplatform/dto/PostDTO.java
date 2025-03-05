@@ -14,46 +14,7 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostDTO {
-//    private long id;
-//
-//
-//    private String content;
-//
-//    private Set<User> postLikes; // Total likes count
-//    private Set<CommentDTO> comments;
-//
-//    public PostDTO(Long id, String content, Set<User> likedByUsers, Set<Comment> comments) {
-//    }
-//
-//    public PostDTO(String content, long id) {
-//        this.content = content;
-//        this.id = id;
-//    }
-//
-//    public PostDTO(long id, String content, Set<User> postLikes, Set<CommentDTO> comments) {
-//        this.id = id;
-//        this.content = content;
-//        // Extract usernames from likedByUsers
-//
-//    }
-//
-//    public PostDTO(Optional<Post> post) {
-//    }
-//
-//    public String getContent() {
-//        return content;
-//    }
-//
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+
 
     private Long id;
     private String content;

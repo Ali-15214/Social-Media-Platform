@@ -36,15 +36,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment addComment(Long postId, Long userId, String content) {
-        // Fetch the post by ID (validate if post exists)
+
         Post post = commentDao.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with ID: " + postId));
 
-        // Fetch the user by ID (validate if user exists)
+
         User user = commentDao.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + userId));
 
-        // Create and save the comment
         Comment comment = new Comment(user, post, content);
         return commentDao.saveComment(comment);
 

@@ -9,7 +9,7 @@ public class CommentRequestDTO {
     @Size(max = 500, message = "Comment content must be less than 500 characters")
     private String content;
 
-    // Getters and Setters
+
     public String getContent() {
         return content;
     }
