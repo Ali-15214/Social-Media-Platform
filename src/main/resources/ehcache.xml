@@ -1,22 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ehcache xmlns="http://www.ehcache.org/v3"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="
+            http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+            http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+<cache alias="posts">
+    <key-type>java.lang.Long</key-type>
+    <value-type>com.socialmediaplatform.dto.PostDTO</value-type>
+    <expiry>
+        <ttl unit="seconds">90</ttl>
+    </expiry>
 
 
-    <cache alias="users">
-        <heap>1000</heap>
-        <expiry>
-            <ttl unit="seconds">600</ttl>
-        </expiry>
-    </cache>
+
+    <resources>
+        <heap unit="entries">500</heap>
+
+    </resources>
+</cache>
+
+<cache alias="users">
+    <key-type>java.lang.Long</key-type>
+    <value-type>org.springframework.http.ResponseEntity</value-type>
+    <expiry>
+        <ttl unit="seconds">90</ttl>
+    </expiry>
 
 
-    <cache alias="posts">
-        <heap>1000</heap>
-        <expiry>
-            <ttl unit="seconds">600</ttl>
-        </expiry>
-    </cache>
 
-</ehcache>
+    <resources>
+        <heap>500</heap>
+
+    </resources>
+</cache>
+
+</config>

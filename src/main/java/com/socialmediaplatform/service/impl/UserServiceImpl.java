@@ -1,7 +1,6 @@
 package com.socialmediaplatform.service.impl;
 
 import com.socialmediaplatform.Exceptions.CustomException.ActionAlreadyPerformedException;
-import com.socialmediaplatform.Exceptions.CustomException.UserNotFoundException;
 import com.socialmediaplatform.Response.LoginResponse;
 import com.socialmediaplatform.Response.RegisterUserResponse;
 import com.socialmediaplatform.Response.UserProfileResponse;
@@ -15,6 +14,7 @@ import com.socialmediaplatform.entities.User;
 import com.socialmediaplatform.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +23,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+@EnableCaching
 @Service
 public class UserServiceImpl implements UserServices {
 
@@ -43,8 +44,8 @@ public class UserServiceImpl implements UserServices {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+//    @Autowired
+//    private CustomUserDetailsService userDetailsService;
 
     @Override
     public ResponseEntity registerUser(RegisterDTO userDTO) {
@@ -62,13 +63,14 @@ public class UserServiceImpl implements UserServices {
     @Override
     public ResponseEntity loginUser(LoginDTO loginDTO) {
 
-        authenticationManager.authenticate(
+       authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
         );
 
 
 
-        User user = userDAO.findByEmail(loginDTO.getEmail());
+       User user = userDAO.findByEmail(loginDTO.getEmail());
+
 
         final String jwt = jwtUtil.generateToken(user);
 

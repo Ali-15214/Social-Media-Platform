@@ -39,7 +39,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = (UserDetails) request.getSession().getAttribute("USER_DETAILS");
+
+            if (userDetails == null) { // ❌ If not cached in session, load from DB
+                userDetails = userDetailsService.loadUserByUsername(username);
+                request.getSession().setAttribute("USER_DETAILS", userDetails); // ✅ Store in session
+            }
+          //  UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

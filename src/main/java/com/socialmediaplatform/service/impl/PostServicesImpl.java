@@ -74,7 +74,7 @@ public class PostServicesImpl implements PostServices {
         return new PostDTO(post);
     }
 
-    @CacheEvict(value = "users", key = "#id")
+    @CacheEvict(value = "posts", key = "#postId")
     @Override
     public PostDTO updatePost(Long postId,Long userId, PostDTO postDto) {
 
@@ -97,6 +97,7 @@ public class PostServicesImpl implements PostServices {
     }
 
 
+    @CacheEvict(value = "posts", key = "#postId")
     @Override
     public void deletePost(Long postId,Long userId) {
 
