@@ -4,11 +4,11 @@ The application uses Spring Data JPA for database operations,validations for inp
 Additionally, Aspect-Oriented Programming (AOP) has been implemented for logging and execution time tracking, allowing better monitoring of method calls and performance.
 
 
-Technologies Used
-Spring Boot
-Spring Data JPA
-Maven
-MySQL Database
-JWT for authentication
-Swagger/OpenAPI for API documentation
-AOP for logging and execution time tracking
+Technologies Used :
+Spring Boot ,
+Spring Data JPA ,
+Maven ,
+MySQL Database ,
+JWT for authentication ,
+Swagger/OpenAPI for API documentation ,
+AOP for logging and execution time tracking.
