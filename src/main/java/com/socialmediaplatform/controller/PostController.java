@@ -1,6 +1,5 @@
 package com.socialmediaplatform.controller;
 
-import com.socialmediaplatform.dao.UserDao;
 import com.socialmediaplatform.dto.*;
 import com.socialmediaplatform.Util.JwtUtil;
 import com.socialmediaplatform.entities.Comment;

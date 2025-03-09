@@ -26,4 +26,12 @@ public class LikeDTO {
     public void setPostId(Long postId) {
         this.postId = postId;
     }
+
+    @Override
+    public String toString() {
+        return "LikeDTO{" +
+                "userId=" + userId +
+                ", postId=" + postId +
+                '}';
+    }
 }

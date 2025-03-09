@@ -60,5 +60,13 @@ public class CommentDTO {
         this.content = content;
     }
 
-
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", postId=" + postId +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

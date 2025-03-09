@@ -49,4 +49,15 @@ public class CommentResponseDTO {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "CommentResponseDTO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", postId=" + postId +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

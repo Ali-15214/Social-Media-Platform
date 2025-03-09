@@ -25,4 +25,12 @@ public class RegisterUserResponse {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterUserResponse{" +
+                "message='" + message + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }

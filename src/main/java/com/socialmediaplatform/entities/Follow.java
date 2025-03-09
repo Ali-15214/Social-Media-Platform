@@ -55,4 +55,13 @@ public class Follow {
     public void setFollowing(User following) {
         this.following = following;
     }
+
+    @Override
+    public String toString() {
+        return "Follow{" +
+                "id=" + id +
+                ", follower=" + follower +
+                ", following=" + following +
+                '}';
+    }
 }

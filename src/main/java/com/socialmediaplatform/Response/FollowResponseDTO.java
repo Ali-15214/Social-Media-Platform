@@ -68,4 +68,15 @@ public class FollowResponseDTO {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "FollowResponseDTO{" +
+                "followId=" + followId +
+                ", followerId=" + followerId +
+                ", followerName='" + followerName + '\'' +
+                ", followingId=" + followingId +
+                ", followingName='" + followingName + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

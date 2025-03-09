@@ -73,4 +73,15 @@ public class RegisterDTO {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterDTO{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", bio='" + bio + '\'' +
+                '}';
+    }
 }

@@ -56,4 +56,15 @@ public class UserProfileResponse {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfileResponse{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", bio='" + bio + '\'' +
+                '}';
+    }
 }

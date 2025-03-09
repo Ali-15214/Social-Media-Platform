@@ -49,4 +49,15 @@ public class PostResponseDTO {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    @Override
+    public String toString() {
+        return "PostResponseDTO{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                ", userEmail='" + userEmail + '\'' +
+                ", userName='" + userName + '\'' +
+                '}';
+    }
 }

@@ -32,4 +32,12 @@ public class FollowDTO {
     public void setFollowingId(Long followingId) {
         this.followingId = followingId;
     }
+
+    @Override
+    public String toString() {
+        return "FollowDTO{" +
+                "followerId=" + followerId +
+                ", followingId=" + followingId +
+                '}';
+    }
 }

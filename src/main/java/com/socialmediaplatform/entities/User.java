@@ -162,4 +162,21 @@ public class User{
     public void setFollowers(List<Follow> followers) {
         this.followers = followers;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", bio='" + bio + '\'' +
+                ", posts=" + posts +
+                ", comments=" + comments +
+                ", likedPosts=" + likedPosts +
+                ", following=" + following +
+                ", followers=" + followers +
+                '}';
+    }
 }

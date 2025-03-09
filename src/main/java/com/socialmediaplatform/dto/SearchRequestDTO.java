@@ -46,4 +46,15 @@ public class SearchRequestDTO {
     public void setSortDirection(String sortDirection) {
         this.sortDirection = sortDirection;
     }
+
+    @Override
+    public String toString() {
+        return "SearchRequestDTO{" +
+                "keyword='" + keyword + '\'' +
+                ", page=" + page +
+                ", size=" + size +
+                ", sortBy='" + sortBy + '\'' +
+                ", sortDirection='" + sortDirection + '\'' +
+                '}';
+    }
 }

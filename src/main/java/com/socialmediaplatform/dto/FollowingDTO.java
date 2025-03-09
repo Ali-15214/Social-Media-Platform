@@ -38,4 +38,14 @@ public class FollowingDTO {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    @Override
+    public String toString() {
+        return "FollowingDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", bio='" + bio + '\'' +
+                '}';
+    }
 }

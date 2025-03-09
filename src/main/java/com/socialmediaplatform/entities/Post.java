@@ -110,5 +110,16 @@ public class Post {
         this.likedByUsers = likedByUsers;
     }
 
-
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", user=" + user +
+                ", content='" + content + '\'' +
+                ", timestamp=" + timestamp +
+                ", comments=" + comments +
+                ", likedByUsers=" + likedByUsers +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
